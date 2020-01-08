@@ -201,8 +201,8 @@ class Hurricane:
 
 #-------------------------------------------------------------------------------
 
-year = choicebox('Pick an Atlantic Hurricane season: ', 'Season Menu',\
-                 range(2017, 2020))
+year = choicebox('Pick an Atlantic Hurricane season:', 'Season Menu',\
+                 range(2016, 2020))
 filename = '{0}.txt'.format(year)
 file = open(filename, 'r')
 storm_names = []
