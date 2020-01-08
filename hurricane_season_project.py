@@ -202,7 +202,7 @@ class Hurricane:
 #-------------------------------------------------------------------------------
 
 year = choicebox('Pick an Atlantic Hurricane season:', 'Season Menu',\
-                 range(2016, 2020))
+                 range(2014, 2020))
 filename = '{0}.txt'.format(year)
 file = open(filename, 'r')
 storm_names = []
@@ -283,8 +283,13 @@ else:
     ts_count = 0
     h_count = 0
     mh_count = 0
+    costy = 0
+    deathy = 0
     
     for x in season_list:
+        costy += x._cost
+        deathy += x._death
+        
         if x._windspd >= 111:
             ts_count += 1
             h_count += 1
@@ -297,10 +302,23 @@ else:
         elif x._windspd >= 39:
             ts_count += 1
             
+    money_fig = ''
+    z = str(costy)
+    
+    for y in range (1, len(z) + 1):
+        money_fig = z[-y] + money_fig
+        if y%3 == 0 and len(z) - y != 0:
+            money_fig = ',' + money_fig
+            
+        elif len(z) - y == 0:
+            money_fig = '$' + money_fig
+            
     td = 'Total Depressions: {0}\n'.format(len(season_list))
     ts = 'Total Named Storms: {0}\n'.format(ts_count)
     h = 'Total Hurricanes: {0}\n'.format(h_count)
-    mh = 'Total Major Hurricanes: {0}'.format(mh_count)
+    mh = 'Total Major Hurricanes: {0}\n'.format(mh_count)
+    c = 'Total Damages: {0}\n'.format(money_fig)
+    d = 'Total Deaths: {0}'.format(deathy)
     
-    result = msgbox(td + ts + h + mh, '{0} Season Storm Count'.format(year), \
-                    'OK')
+    result = msgbox(td + ts + h + mh + c + d, \
+                    '{0} Season Storm Count'.format(year), 'OK')
