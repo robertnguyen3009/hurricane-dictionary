@@ -201,124 +201,133 @@ class Hurricane:
 
 #-------------------------------------------------------------------------------
 
-year = choicebox('Pick an Atlantic Hurricane season:', 'Season Menu',\
-                 range(2014, 2020))
-filename = '{0}.txt'.format(year)
-file = open(filename, 'r')
-storm_names = []
-season_list = []
-first_line = 'a'
+cc = True
 
-while first_line != '':
-    first_line = file.readline()
-    
-    first_line.strip()
-    if first_line != '':
-        s = first_line.split(',')
-        storm = Hurricane(s[0], s[1], s[2], s[3], s[4], s[5], s[6])
-        storm_names.append(s[0].capitalize())
-        season_list.append(storm)
-        
-options_1 = ['View Individual Storm', 'Season Storm Count']
-main_menu = buttonbox('Select an Option:', 'Main Menu', options_1)
+while cc == True:
+    year = choicebox('Pick an Atlantic Hurricane season:', 'Season Menu',\
+                     range(2014, 2020))
+    filename = '{0}.txt'.format(year)
+    file = open(filename, 'r')
+    storm_names = []
+    season_list = []
+    first_line = 'a'
 
-if main_menu == options_1[0]:
-    name_s = choicebox('Select a Storm:', 'Storm Menu', storm_names)
+    while first_line != '':
+        first_line = file.readline()
+
+        first_line.strip()
+        if first_line != '':
+            s = first_line.split(',')
+            storm = Hurricane(s[0], s[1], s[2], s[3], s[4], s[5], s[6])
+            storm_names.append(s[0].capitalize())
+            season_list.append(storm)
+            
+    options_1 = ['View Individual Storm', 'Season Storm Count']
+    main_menu = buttonbox('Select an Option:', 'Main Menu', options_1)
+
+    if main_menu == options_1[0]:
+        name_s = choicebox('Select a Storm:', 'Storm Menu', storm_names)
+
+        for x in season_list:
+            if x._title == name_s.lower():
+                y = x
+                break
+            
+        options_2 = ['Lifespan', 'Classification', 'Effects']
+        function = buttonbox('Select a function to perform:', 'Function Menu', \
+                             options_2, None, None, None, None)
     
-    for x in season_list:
-        if x._title == name_s.lower():
-            y = x
-            break
-    
-    options_2 = ['Lifespan', 'Classification', 'Effects']
-    function = buttonbox('Select a function to perform:', 'Function Menu', \
-                         options_2, None, None, None, None)
-    
-    if function == 'Lifespan':
-        result = msgbox('{0}, {1}\n{2}, {3}'.format(y.date('start'), year, \
-                                                    y.date('end'), year), \
-                        "{0}'s Lifespan".format(name_s), 'OK')
+        if function == 'Lifespan':
+            result = msgbox('{0}, {1}\n{2}, {3}'.format(y.date('start'), year, \
+                                                        y.date('end'), year), \
+                            "{0}'s Lifespan".format(name_s), 'OK')
         
-    elif function == 'Classification':
-        if y._windspd <= 38:
-            cla = 'Tropical Depression'
-            printer = '{0} {1}\n{2}\n{3}'.format(cla, name_s, \
-                                                 y.max_wind_speed(), \
-                                                 y.pressure())
-            
-        elif y._windspd >= 39 and y._windspd <= 73:
-            cla = 'Tropical Storm'
-            printer = '{0} {1}\n{2}\n{3}'.format(cla, name_s, \
-                                                 y.max_wind_speed(), \
-                                                 y.pressure())
-            
-        elif y._windspd >= 74 and y._windspd <= 110:
-            cla = 'Hurricane'
-            printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
-                                                     cla, name_s, \
+        elif function == 'Classification':
+            if y._windspd <= 38:
+                cla = 'Tropical Depression'
+                printer = '{0} {1}\n{2}\n{3}'.format(cla, name_s, \
                                                      y.max_wind_speed(), \
                                                      y.pressure())
-        else:
-            cla = 'Major Hurricane'
-            printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
-                                                     cla, name_s, \
+            
+            elif y._windspd >= 39 and y._windspd <= 73:
+                cla = 'Tropical Storm'
+                printer = '{0} {1}\n{2}\n{3}'.format(cla, name_s, \
                                                      y.max_wind_speed(), \
-                                                     y.pressure())            
-        result = msgbox(printer, "{0}'s Classification".format(name_s), 'OK')
+                                                     y.pressure())
+            
+            elif y._windspd >= 74 and y._windspd <= 110:
+                cla = 'Hurricane'
+                printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
+                                                         cla, name_s, \
+                                                         y.max_wind_speed(), \
+                                                         y.pressure())
+            else:
+                cla = 'Major Hurricane'
+                printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
+                                                         cla, name_s, \
+                                                         y.max_wind_speed(), \
+                                                         y.pressure())            
+            result = msgbox(printer, "{0}'s Classification".format(name_s), \
+                            'OK')
         
-    elif function == 'Effects':
-        effect = y.cost()[:-1]
-        if y._death == 0:
-            effect +=' and no deaths.'
+        elif function == 'Effects':
+            effect = y.cost()[:-1]
+            if y._death == 0:
+                effect +=' and no deaths.'
             
-        elif y._death == 1:
-            effect += ' and 1 death.'
+            elif y._death == 1:
+                effect += ' and 1 death.'
             
-        else:
-            effect += ' and {0} deaths.'.format(y._death)
+            else:
+                effect += ' and {0} deaths.'.format(y._death)
             
-        result = msgbox(effect, "{0}'s Effects".format(name_s), 'OK')
+            result = msgbox(effect, "{0}'s Effects".format(name_s), 'OK')
         
-else:
-    ts_count = 0
-    h_count = 0
-    mh_count = 0
-    costy = 0
-    deathy = 0
+    else:
+        ts_count = 0
+        h_count = 0
+        mh_count = 0
+        costy = 0
+        deathy = 0
     
-    for x in season_list:
-        costy += x._cost
-        deathy += x._death
+        for x in season_list:
+            costy += x._cost
+            deathy += x._death
         
-        if x._windspd >= 111:
-            ts_count += 1
-            h_count += 1
-            mh_count += 1
+            if x._windspd >= 111:
+                ts_count += 1
+                h_count += 1
+                mh_count += 1
             
-        elif x._windspd >= 74:
-            ts_count += 1
-            h_count += 1
+            elif x._windspd >= 74:
+                ts_count += 1
+                h_count += 1
             
-        elif x._windspd >= 39:
-            ts_count += 1
+            elif x._windspd >= 39:
+                ts_count += 1
             
-    money_fig = ''
-    z = str(costy)
+        money_fig = ''
+        z = str(costy)
     
-    for y in range (1, len(z) + 1):
-        money_fig = z[-y] + money_fig
-        if y%3 == 0 and len(z) - y != 0:
-            money_fig = ',' + money_fig
+        for y in range (1, len(z) + 1):
+            money_fig = z[-y] + money_fig
+            if y%3 == 0 and len(z) - y != 0:
+                money_fig = ',' + money_fig
             
-        elif len(z) - y == 0:
-            money_fig = '$' + money_fig
+            elif len(z) - y == 0:
+                money_fig = '$' + money_fig
             
-    td = 'Total Depressions: {0}\n'.format(len(season_list))
-    ts = 'Total Named Storms: {0}\n'.format(ts_count)
-    h = 'Total Hurricanes: {0}\n'.format(h_count)
-    mh = 'Total Major Hurricanes: {0}\n'.format(mh_count)
-    c = 'Total Damages: {0}\n'.format(money_fig)
-    d = 'Total Deaths: {0}'.format(deathy)
+        td = 'Total Depressions: {0}\n'.format(len(season_list))
+        ts = 'Total Named Storms: {0}\n'.format(ts_count)
+        h = 'Total Hurricanes: {0}\n'.format(h_count)
+        mh = 'Total Major Hurricanes: {0}\n'.format(mh_count)
+        c = 'Total Damages: {0}\n'.format(money_fig)
+        d = 'Total Deaths: {0}'.format(deathy)
     
-    result = msgbox(td + ts + h + mh + c + d, \
-                    '{0} Season Storm Count'.format(year), 'OK')
+        result = msgbox(td + ts + h + mh + c + d, \
+                        '{0} Season Storm Count'.format(year), 'OK')
+        
+    cc = ccbox('Do you want to continue?', 'Continue?', \
+               ['Continue', 'Cancel'], None, 'Continue', 'Cancel')
+    if cc == False:
+        break
