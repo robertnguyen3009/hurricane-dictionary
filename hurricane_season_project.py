@@ -36,6 +36,9 @@ class Hurricane:
     ## Effects: prints information
     ## __str__: Hurricane -> Str
     def __str__(self):
+        print(self._title.capitalize)
+        
+    def full_title(self):
         if self._windspd <= 38:
             cat_str = 'Tropical Depression '
             
@@ -57,7 +60,12 @@ class Hurricane:
         else:
             cat_str = 'Category 5 Major Hurricane '
             
-        return cat_str + self._title.capitalize()
+        if self._title != 'unnamed':
+            return cat_str + self._title.capitalize()
+        else:
+            cx = self._title.capitalize() + ' ' + cat_str
+            cx.strip()
+            return cx
         
     ## self.date(when) translates either self._start or self._end to a string 
     ##   containing the date and returns said string
@@ -205,7 +213,7 @@ cc = True
 
 while cc == True:
     year = choicebox('Pick an Atlantic Hurricane season:', 'Season Menu',\
-                     range(2014, 2020))
+                     range(2000, 2020))
     filename = '{0}.txt'.format(year)
     file = open(filename, 'r')
     storm_names = []
@@ -238,33 +246,35 @@ while cc == True:
                              options_2, None, None, None, None)
     
         if function == 'Lifespan':
-            result = msgbox('{0}, {1}\n{2}, {3}'.format(y.date('start'), year, \
-                                                        y.date('end'), year), \
-                            "{0}'s Lifespan".format(name_s), 'OK')
+            if int(y._start) > int(y._end):
+                result = msgbox('{0}, {1}\n{2}, {3}'.format(y.date('start'), \
+                                                            year, \
+                                                            y.date('end'), \
+                                                            int(year) + 1), \
+                                "{0}'s Lifespan".format(name_s), 'OK')
+                
+            else:
+                result = msgbox('{0}, {1}\n{2}, {3}'.format(y.date('start'), \
+                                                            year, \
+                                                            y.date('end'), \
+                                                            year), \
+                                "{0}'s Lifespan".format(name_s), 'OK')
         
         elif function == 'Classification':
-            if y._windspd <= 38:
-                cla = 'Tropical Depression'
-                printer = '{0} {1}\n{2}\n{3}'.format(cla, name_s, \
-                                                     y.max_wind_speed(), \
-                                                     y.pressure())
-            
-            elif y._windspd >= 39 and y._windspd <= 73:
-                cla = 'Tropical Storm'
-                printer = '{0} {1}\n{2}\n{3}'.format(cla, name_s, \
-                                                     y.max_wind_speed(), \
-                                                     y.pressure())
+            if y._windspd <= 73:
+                printer = '{0}\n{1}\n{2}'.format(y.full_title(), \
+                                                 y.max_wind_speed(), \
+                                                 y.pressure())
             
             elif y._windspd >= 74 and y._windspd <= 110:
-                cla = 'Hurricane'
-                printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
-                                                         cla, name_s, \
-                                                         y.max_wind_speed(), \
+                printer = '{0} {1}\n{2}\n{3}'.format(y.category(), \
+                                                     y.full_title(), \
+                                                     y.max_wind_speed(), \
                                                          y.pressure())
             else:
                 cla = 'Major Hurricane'
                 printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
-                                                         cla, name_s, \
+                                                         cla, y.full_title(), \
                                                          y.max_wind_speed(), \
                                                          y.pressure())            
             result = msgbox(printer, "{0}'s Classification".format(name_s), \
