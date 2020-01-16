@@ -261,22 +261,10 @@ while cc == True:
                                 "{0}'s Lifespan".format(name_s), 'OK')
         
         elif function == 'Classification':
-            if y._windspd <= 73:
-                printer = '{0}\n{1}\n{2}'.format(y.full_title(), \
-                                                 y.max_wind_speed(), \
-                                                 y.pressure())
+            printer = '{0}\n{1}\n{2}'.format(y.full_title(), \
+                                             y.max_wind_speed(), \
+                                             y.pressure())
             
-            elif y._windspd >= 74 and y._windspd <= 110:
-                printer = '{0} {1}\n{2}\n{3}'.format(y.category(), \
-                                                     y.full_title(), \
-                                                     y.max_wind_speed(), \
-                                                         y.pressure())
-            else:
-                cla = 'Major Hurricane'
-                printer = '{0} {1} {2}\n{3}\n{4}'.format(y.category(), \
-                                                         cla, y.full_title(), \
-                                                         y.max_wind_speed(), \
-                                                         y.pressure())            
             result = msgbox(printer, "{0}'s Classification".format(name_s), \
                             'OK')
         
