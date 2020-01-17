@@ -1,6 +1,7 @@
 #Duc Minh (Robert) Nguyen
 
 from easygui import *
+import os
 
 ''' this program allows users to quickly check a variety of statistics on
         different Atlantic hurricanes over the years, as well as a quick
@@ -214,6 +215,9 @@ cc = True
 while cc == True:
     year = choicebox('Pick an Atlantic Hurricane season:', 'Season Menu',\
                      range(2000, 2020))
+    if year == None:
+        cc = False
+        break
     filename = '{0}.txt'.format(year)
     file = open(filename, 'r')
     storm_names = []
@@ -323,7 +327,8 @@ while cc == True:
         d = 'Total Deaths: {0}'.format(deathy)
     
         result = msgbox(td + ts + h + mh + c + d, \
-                        '{0} Season Storm Count'.format(year), 'OK')
+                        '{0} Season Storm Count'.format(year), 'OK',
+                        os.startfile('{0}.png'.format(year)))
         
     cc = ccbox('Do you want to continue?', 'Continue?', \
                ['Continue', 'Cancel'], None, 'Continue', 'Cancel')
