@@ -234,7 +234,7 @@ while cc == True:
             storm_names.append(s[0].capitalize())
             season_list.append(storm)
             
-    options_1 = ['View Individual Storm', 'Season Storm Count']
+    options_1 = ['View Individual Storm', 'Season Summary']
     main_menu = buttonbox('Select an Option:', 'Main Menu', options_1)
 
     if main_menu == options_1[0]:
