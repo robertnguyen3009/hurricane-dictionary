@@ -1,4 +1,4 @@
-# hurricane-dictionary
+# hurricane-encyclopedia
 this program allows users to quickly check a variety of statistics on
 different Atlantic hurricanes over the years, as well as a quick
 summary of the amount storms within a given season
